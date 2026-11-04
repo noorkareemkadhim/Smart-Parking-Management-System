@@ -1,12 +1,59 @@
-
+#include "ParkingSystem.h"
 #include <iostream>
+#include <limits>
+#include <string>
 
 int main() {
-    std::cout << "=== Smart Parking Management System ===\n";
-    std::cout << "1. Park a Car\n";
-    std::cout << "2. Remove a Car\n";
-    std::cout << "3. Show Parking Status\n";
-    std::cout << "4. Exit\n";
+    ParkingSystem parking(10);
+    HourlyPricing pricing(2.0);
+    parking.load("parking_data.txt");
 
-    return 0;
+    while (true) {
+        std::cout << "\n=== Smart Parking Management System ===\n"
+                  << "1. Park a Car\n"
+                  << "2. Remove a Car\n"
+                  << "3. Show Parking Status\n"
+                  << "4. Calculate Parking Fee\n"
+                  << "5. Exit\n"
+                  << "Choose an option: ";
+        int choice;
+        if (!(std::cin >> choice)) {
+            if (std::cin.eof()) break;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid option.\n";
+            continue;
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (choice == 5) break;
+        if (choice == 1 || choice == 2) {
+            std::string plate;
+            std::cout << "Enter license plate: ";
+            std::getline(std::cin, plate);
+            bool ok = choice == 1 ? parking.park(plate) : parking.remove(plate);
+            std::cout << (ok ? "Operation successful.\n" : "Operation failed. Check plate or capacity.\n");
+            if (ok && !parking.save("parking_data.txt")) std::cout << "Warning: could not save data.\n";
+        } else if (choice == 3) {
+            std::cout << "Available: " << parking.available() << "/" << parking.capacity() << '\n';
+            for (const auto& spot : parking.spots())
+                std::cout << "Spot " << spot.number << ": " << (spot.occupied() ? spot.plate : "Available") << '\n';
+        } else if (choice == 4) {
+            std::cout << "Hours parked: ";
+            int hours;
+            if (!(std::cin >> hours)) {
+                if (std::cin.eof()) break;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid hours.\n";
+                continue;
+            }
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (hours <= 0) std::cout << "Hours must be positive.\n";
+            else std::cout << "Fee: " << pricing.calculate(hours) << " units\n";
+        } else {
+            std::cout << "Invalid option.\n";
+        }
+    }
+    if (!parking.save("parking_data.txt")) std::cerr << "Warning: could not save data.\n";
+    std::cout << "Goodbye!\n";
 }
