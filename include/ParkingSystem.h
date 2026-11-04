@@ -23,6 +23,14 @@ private:
     double rate_;
 };
 
+class FlatRatePricing : public PricingStrategy {
+public:
+    explicit FlatRatePricing(double fee = 5.0) : fee_(fee) {}
+    double calculate(int hours) const override;
+
+private:
+    double fee_;
+};
 class ParkingSystem {
 public:
     explicit ParkingSystem(int capacity);

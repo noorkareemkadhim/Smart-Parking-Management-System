@@ -15,6 +15,12 @@ double HourlyPricing::calculate(int hours) const {
     return rate_ * hours;
 }
 
+double FlatRatePricing::calculate(int hours) const {
+    if (hours <= 0)
+        throw std::invalid_argument("Hours must be positive");
+    return fee_;
+}
+
 ParkingSystem::ParkingSystem(int capacity) {
     if (capacity <= 0) throw std::invalid_argument("Capacity must be positive");
     for (int i = 1; i <= capacity; ++i) spots_.push_back({i, ""});

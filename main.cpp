@@ -6,6 +6,7 @@
 int main() {
     ParkingSystem parking(10);
     HourlyPricing pricing(2.0);
+    FlatRatePricing flatPricing(5.0);
     parking.load("parking_data.txt");
 
     while (true) {
@@ -38,6 +39,24 @@ int main() {
             for (const auto& spot : parking.spots())
                 std::cout << "Spot " << spot.number << ": " << (spot.occupied() ? spot.plate : "Available") << '\n';
         } else if (choice == 4) {
+            
+std::cout << "1. Hourly Pricing\n";
+std::cout << "2. Flat Rate Pricing\n";
+std::cout << "Choose pricing type: ";
+int pricingChoice;
+if (!(std::cin >> pricingChoice)) {
+    if (std::cin.eof()) break;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "Invalid pricing type.\n";
+    continue;
+}
+std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+if (pricingChoice != 1 && pricingChoice != 2) {
+    std::cout << "Invalid pricing type.\n";
+    continue;
+}
+
             std::cout << "Hours parked: ";
             int hours;
             if (!(std::cin >> hours)) {
@@ -49,7 +68,16 @@ int main() {
             }
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             if (hours <= 0) std::cout << "Hours must be positive.\n";
-            else std::cout << "Fee: " << pricing.calculate(hours) << " units\n";
+         
+else {
+    const PricingStrategy& selectedPricing =
+        (pricingChoice == 1)
+            ? static_cast<const PricingStrategy&>(pricing)
+            : static_cast<const PricingStrategy&>(flatPricing);
+
+    std::cout << "Fee: " << selectedPricing.calculate(hours) << "\n";
+}
+
         } else {
             std::cout << "Invalid option.\n";
         }
