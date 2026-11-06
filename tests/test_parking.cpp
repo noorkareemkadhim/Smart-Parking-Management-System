@@ -26,5 +26,9 @@ int main() {
     assert(pricing.calculate(2) == 6.0);
     bool threw = false;
     try { pricing.calculate(0); } catch (const std::invalid_argument&) { threw = true; }
-    assert(threw);
+   assert(threw);
+
+FlatRatePricing flatPricing(5.0);
+assert(flatPricing.calculate(3) == 5.0);
+assert(flatPricing.calculate(10) == 5.0);
 }
