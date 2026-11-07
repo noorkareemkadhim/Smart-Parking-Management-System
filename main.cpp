@@ -15,7 +15,8 @@ int main() {
                   << "2. Remove a Car\n"
                   << "3. Show Parking Status\n"
                   << "4. Calculate Parking Fee\n"
-                  << "5. Exit\n"
+<< "5. Search for a Car\n"
+<< "6. Exit\n"
                   << "Choose an option: ";
         int choice;
         if (!(std::cin >> choice)) {
@@ -26,7 +27,7 @@ int main() {
             continue;
         }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        if (choice == 5) break;
+        if (choice == 6) break;
         if (choice == 1 || choice == 2) {
             std::string plate;
             std::cout << "Enter license plate: ";
@@ -77,10 +78,21 @@ else {
 
     std::cout << "Fee: " << selectedPricing.calculate(hours) << "\n";
 }
+  } else if (choice == 5) {
+    std::string plate;
+    std::cout << "Enter license plate to search: ";
+    std::getline(std::cin, plate);
 
-        } else {
-            std::cout << "Invalid option.\n";
-        }
+    int spotNumber = parking.findCar(plate);
+
+    if (spotNumber != -1) {
+        std::cout << "Car found in spot " << spotNumber << "\n";
+    } else {
+        std::cout << "Car not found.\n";
+    }
+} else {
+    std::cout << "Invalid option.\n";
+}
     }
     if (!parking.save("parking_data.txt")) std::cerr << "Warning: could not save data.\n";
     std::cout << "Goodbye!\n";

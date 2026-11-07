@@ -41,7 +41,14 @@ bool ParkingSystem::remove(const std::string& plate) {
     }
     return false;
 }
-
+int ParkingSystem::findCar(const std::string& plate) const {
+    for (const auto& spot : spots_) {
+        if (spot.plate == plate && spot.occupied()) {
+            return spot.number;
+        }
+    }
+    return -1;
+}
 int ParkingSystem::available() const {
     int count = 0;
     for (const auto& spot : spots_) if (!spot.occupied()) ++count;

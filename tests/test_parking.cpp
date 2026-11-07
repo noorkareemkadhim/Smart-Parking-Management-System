@@ -31,4 +31,7 @@ int main() {
 FlatRatePricing flatPricing(5.0);
 assert(flatPricing.calculate(3) == 5.0);
 assert(flatPricing.calculate(10) == 5.0);
+assert(p.findCar("XYZ789") == 2);
+assert(p.findCar("ABC123") == -1);
+assert(p.findCar("NOTFOUND") == -1);
 }

@@ -36,6 +36,7 @@ public:
     explicit ParkingSystem(int capacity);
     bool park(const std::string& plate);
     bool remove(const std::string& plate);
+    int findCar(const std::string& plate) const;
     int available() const;
     int capacity() const;
     const std::vector<ParkingSpot>& spots() const;
