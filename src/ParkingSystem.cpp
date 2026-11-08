@@ -5,8 +5,12 @@
 #include <stdexcept>
 
 namespace {
+    
 bool validPlate(const std::string& plate) {
-    return !plate.empty() && plate.size() <= 20 && plate.find_first_of("\r\n\t") == std::string::npos;
+    return !plate.empty()
+        && plate.size() <= 20
+        && plate.find_first_of("\r\n\t") == std::string::npos
+        && plate.find_first_not_of(' ') != std::string::npos;
 }
 }
 

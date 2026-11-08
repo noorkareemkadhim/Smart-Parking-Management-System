@@ -16,6 +16,7 @@ int main() {
     assert(!p.remove("ABC123"));
     assert(p.available() == 1);
     assert(!p.park(""));
+    assert(!p.park("   "));
     assert(p.save("parking_test_data.txt"));
     ParkingSystem loaded(2);
     assert(loaded.load("parking_test_data.txt"));
