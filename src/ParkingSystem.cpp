@@ -58,7 +58,9 @@ int ParkingSystem::available() const {
     for (const auto& spot : spots_) if (!spot.occupied()) ++count;
     return count;
 }
-
+int ParkingSystem::occupiedCount() const {
+    return capacity() - available();
+}
 int ParkingSystem::capacity() const { return static_cast<int>(spots_.size()); }
 const std::vector<ParkingSpot>& ParkingSystem::spots() const { return spots_; }
 

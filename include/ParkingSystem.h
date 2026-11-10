@@ -38,6 +38,7 @@ public:
     bool remove(const std::string& plate);
     int findCar(const std::string& plate) const;
     int available() const;
+    int occupiedCount() const;
     int capacity() const;
     const std::vector<ParkingSpot>& spots() const;
     bool save(const std::string& path) const;
