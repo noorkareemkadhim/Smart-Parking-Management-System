@@ -1,4 +1,5 @@
 #include "ParkingSystem.h"
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
@@ -34,14 +35,22 @@ bool ParkingSystem::park(const std::string& plate) {
     if (!validPlate(plate)) return false;
     for (const auto& spot : spots_) if (spot.plate == plate) return false;
     for (auto& spot : spots_) {
-        if (!spot.occupied()) { spot.plate = plate; return true; }
+        if (!spot.occupied()) {
+    spot.plate = plate;
+    spot.entryTime = std::time(nullptr);
+    return true;
+}
     }
     return false;
 }
 
 bool ParkingSystem::remove(const std::string& plate) {
     for (auto& spot : spots_) {
-        if (spot.plate == plate && spot.occupied()) { spot.plate.clear(); return true; }
+        if (spot.plate == plate && spot.occupied()) {
+    spot.plate.clear();
+    spot.entryTime = 0;
+    return true;
+}
     }
     return false;
 }
@@ -68,7 +77,8 @@ bool ParkingSystem::save(const std::string& path) const {
     std::ofstream out(path, std::ios::trunc);
     if (!out) return false;
     out << spots_.size() << '\n';
-    for (const auto& spot : spots_) out << std::quoted(spot.plate) << '\n';
+    for (const auto& spot : spots_)
+    out << std::quoted(spot.plate) << ' ' << spot.entryTime << '\n';
     return static_cast<bool>(out);
 }
 
@@ -80,10 +90,11 @@ bool ParkingSystem::load(const std::string& path) {
     std::vector<ParkingSpot> loaded;
     for (int i = 1; i <= capacity; ++i) {
         std::string plate;
-        if (!(in >> std::quoted(plate))) return false;
+        std::time_t entryTime = 0;
+        if (!(in >> std::quoted(plate) >> entryTime)) return false;
         if (!plate.empty() && !validPlate(plate)) return false;
         for (const auto& spot : loaded) if (!plate.empty() && spot.plate == plate) return false;
-        loaded.push_back({i, plate});
+        loaded.push_back({i, plate, entryTime});
     }
     std::string extra;
     if (in >> extra) return false;

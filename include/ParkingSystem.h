@@ -1,10 +1,12 @@
 #pragma once
+#include <ctime>
 #include <string>
 #include <vector>
 
 struct ParkingSpot {
     int number;
     std::string plate;
+    std::time_t entryTime = 0;
     bool occupied() const { return !plate.empty(); }
 };
 
