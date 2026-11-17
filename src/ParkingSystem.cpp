@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <algorithm>
+#include <cmath>
 
 namespace {
     
@@ -62,6 +64,20 @@ int ParkingSystem::findCar(const std::string& plate) const {
     }
     return -1;
 }
+int ParkingSystem::parkingHours(const std::string& plate) const {
+    for (const auto& spot : spots_) {
+        if (spot.plate == plate && spot.occupied()) {
+            if (spot.entryTime <= 0) return -1;
+
+            double seconds = std::difftime(std::time(nullptr), spot.entryTime);
+            if (seconds < 0) return -1;
+
+            return std::max(1, static_cast<int>(std::ceil(seconds / 3600.0)));
+        }
+    }
+    return -1;
+}
+
 int ParkingSystem::available() const {
     int count = 0;
     for (const auto& spot : spots_) if (!spot.occupied()) ++count;

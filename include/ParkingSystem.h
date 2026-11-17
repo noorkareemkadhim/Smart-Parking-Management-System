@@ -39,6 +39,7 @@ public:
     bool park(const std::string& plate);
     bool remove(const std::string& plate);
     int findCar(const std::string& plate) const;
+    int parkingHours(const std::string& plate) const;
     int available() const;
     int occupiedCount() const;
     int capacity() const;

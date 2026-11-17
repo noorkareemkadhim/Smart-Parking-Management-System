@@ -9,6 +9,7 @@ int main() {
     assert(p.available() == 2);
     assert(p.park("ABC123"));
     assert(p.spots()[0].entryTime > 0);
+    assert(p.parkingHours("ABC123") == 1);
     assert(!p.park("ABC123"));
     assert(p.park("XYZ789"));
     assert(!p.park("FULL"));
