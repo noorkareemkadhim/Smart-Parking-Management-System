@@ -10,9 +10,11 @@ A console-based C++17 parking management project for a software development/desi
 - Calculate a fee using a configurable hourly pricing strategy
 - Save and restore parking state from a local text file
 - Automated unit tests with CTest
+- Search for a parked car by license plate
+- Automatically calculate parking duration
 
 ## Design pattern
-**Strategy Pattern**: `PricingStrategy` defines the pricing interface and `HourlyPricing` implements an hourly fee policy. A future version can add daily or discounted pricing without changing the parking logic.
+**Strategy Pattern**: `PricingStrategy` defines the pricing interface. `HourlyPricing` calculates fees per hour, while `FlatRatePricing` uses a fixed fee. This allows different pricing methods without changing the parking system logic.
 
 ## Build and run (MSYS2 UCRT64)
 From the project directory:
