@@ -58,16 +58,13 @@ if (pricingChoice != 1 && pricingChoice != 2) {
     continue;
 }
 
-            std::cout << "Hours parked: ";
-            int hours;
-            if (!(std::cin >> hours)) {
-                if (std::cin.eof()) break;
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Invalid hours.\n";
-                continue;
-            }
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            
+std::string plate;
+std::cout << "Enter license plate: ";
+std::getline(std::cin, plate);
+
+int hours = parking.parkingHours(plate);
+
             if (hours <= 0) std::cout << "Hours must be positive.\n";
          
 else {
