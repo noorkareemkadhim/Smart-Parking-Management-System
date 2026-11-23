@@ -56,3 +56,14 @@ g++ -std=c++17 -Iinclude tests/test_parking.cpp src/ParkingSystem.cpp -o parking
 - Pricing uses demonstration units, not a real currency.
 - The project is a teaching prototype, not a production parking payment system.
 - All changes should be committed when a real feature, fix, or test is completed.
+## Documentation
+
+The project uses Doxygen to generate source code documentation.
+
+To generate the documentation, run:
+
+```bash
+doxygen Doxyfile
+```
+
+Open `html/index.html` in a web browser to view the generated documentation.
