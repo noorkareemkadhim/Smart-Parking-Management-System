@@ -1,3 +1,7 @@
 # Build artifacts
 build/
 *.exe
+
+# Doxygen generated documentation
+html/
+latex/
